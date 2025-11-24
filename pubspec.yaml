@@ -1,0 +1,49 @@
+name: tintly
+description: "Coloring Calculator"
+publish_to: "none"
+version: 1.0.0
+environment:
+  sdk: ^3.9.2
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+    # ВАЖНО
+  flutter_bloc: ^9.1.1
+
+  uuid: ^4.5.1
+  cupertino_icons: ^1.0.8
+  table_calendar: ^3.2.0
+  image_picker: ^1.2.0
+
+  # ПОКА ПОЛЬЗУЕМСЯ
+  intl: ^0.20.2 #yes
+  hive: ^2.2.3 # no
+  hive_flutter: ^1.1.0 # no
+  path_provider: ^2.1.5 # no
+  provider: ^6.1.5+1 # no
+
+  # УБРАТЬ
+  url_launcher: ^6.3.2 # no
+  equatable: ^2.0.7
+
+#  flutter_svg: ^2.2.1
+#  telegram_login_flutter: ^1.0.1
+#  shared_preferences: ^2.5.3
+#  carousel_slider: ^5.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  hive_generator: ^2.0.1 # no
+  build_runner: ^2.4.6 # no
+  flutter_lints: ^5.0.0 # no
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/
+    - assets/brands/
+    - assets/images/
+    - assets/courses/
