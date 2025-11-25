@@ -11,9 +11,8 @@ class SelectClient extends StatelessWidget {
       appBar: CustomAppBar(title: 'Выбор Клиента'),
       body: Padding(
         padding: const EdgeInsetsGeometry.all(Dimens.padding16),
-        // child: ClientsListPage(
+        // child: ClientsScreen(
         //   selectable: true,
-        //   // добавляем callback при выборе клиента:
         //   onClientSelected: (clientId) {
         //     Navigator.pop(context, clientId);
         //   },

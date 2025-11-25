@@ -13,6 +13,7 @@ import 'package:tintly/shared/designs/styles.dart';
 import 'package:tintly/shared/utils/size_utils.dart';
 import 'package:tintly/shared/widgets/custom_app_bar.dart';
 import 'package:tintly/shared/widgets/primary_button.dart';
+import 'package:tintly/shared/widgets/primary_button_discount.dart';
 
 class CalculatorMasterPage extends StatefulWidget {
   final Calculator calculator;
@@ -45,7 +46,7 @@ class _CalculatorMasterPageState extends State<CalculatorMasterPage> {
 
             if (snapshot.hasError) {
               return Scaffold(
-                body: Center(child:  Text("Ошибка: ${snapshot.error}")),
+                body: Center(child: Text("Ошибка: ${snapshot.error}")),
               );
             }
 
@@ -91,9 +92,9 @@ class _CalculatorMasterPageState extends State<CalculatorMasterPage> {
                   alignment: Alignment.bottomCenter,
                   child: Consumer<CalculatorState>(
                     builder: (context, state, _) {
-                      return PrimaryButton(
-                        title: 'Итого ${state.total.toStringAsFixed(0)}',
-                        onPressed: () {
+                      return PrimaryButtonWithDiscount(
+                        total: state.total,
+                        onSave: (double finalTotal) {
                           showModalBottomSheet(
                             context: context,
                             shape: const RoundedRectangleBorder(
@@ -122,7 +123,8 @@ class _CalculatorMasterPageState extends State<CalculatorMasterPage> {
                                             clientId: "1",
                                             calculatorId: widget.calculator.id,
                                             createdAt: DateTime.now(),
-                                            totalAmount: state.total,
+                                            totalAmount:
+                                                finalTotal, // делать - введеная сумма из кнопки
                                             consumptionData:
                                                 consumptionData.isNotEmpty
                                                 ? consumptionData
@@ -190,7 +192,7 @@ class _CalculatorMasterPageState extends State<CalculatorMasterPage> {
                                               calculatorId:
                                                   widget.calculator.id,
                                               createdAt: DateTime.now(),
-                                              totalAmount: state.total,
+                                              totalAmount: finalTotal,
                                               consumptionData:
                                                   consumptionData.isNotEmpty
                                                   ? consumptionData

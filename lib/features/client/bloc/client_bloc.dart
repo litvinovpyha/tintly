@@ -71,5 +71,14 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
           .toList();
       emit(ClientLoaded(filtered));
     });
+    on<LoadClientById>((event, emit) async {
+      emit(ClientSingleLoading());
+      try {
+        final client = await r.get(event.id);
+        emit(ClientSingleLoaded(client!));
+      } catch (e) {
+        emit(ClientSingleError(e.toString()));
+      }
+    });
   }
 }

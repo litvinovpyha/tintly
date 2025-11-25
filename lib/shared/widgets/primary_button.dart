@@ -10,6 +10,7 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.onPressed,
+    
   });
 
   @override
@@ -46,6 +47,7 @@ class PrimaryButton extends StatelessWidget {
                 style: whiteTitleTextStyle,
               ),
               Spacer(),
+              
             ],
           ),
         ),

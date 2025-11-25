@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:tintly/features/admin/controllers/calculator_session_controller.dart';
 import 'package:tintly/features/admin/models/calculator_session.dart';
+import 'package:tintly/features/client/bloc/client_bloc.dart';
+import 'package:tintly/features/client/bloc/client_state.dart';
 import 'package:tintly/features/client/views/client_profile_screen.dart';
 import 'package:tintly/features/master/views/select_client.dart';
 import 'package:tintly/shared/designs/dimens.dart';
@@ -37,125 +40,240 @@ class _FeatureHistoryScreenState extends State<FeatureHistoryScreen> {
         } else if (sessionSnapshot.hasError) {
           return Center(child: Text('Ошибка: ${sessionSnapshot.error}'));
         } else if (!sessionSnapshot.hasData) {
-          return const Center(child: const Text('Нет данных'));
+          return const Center(child: Text('Нет данных'));
         }
 
         final session = sessionSnapshot.data!;
 
-        return FutureBuilder(
-          future: clientController.getClient(session.clientId),
-          builder: (context, clientSnapshot) {
-            if (clientSnapshot.connectionState == ConnectionState.waiting) {
+        return BlocBuilder<ClientBloc, ClientState>(
+          builder: (context, state) {
+            if (state is ClientSingleLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (clientSnapshot.hasError) {
-              return Center(
-                child: Text('Ошибка клиента: ${clientSnapshot.error}'),
+            }
+
+            if (state is ClientSingleError) {
+              return Center(child: Text("Ошибка клиента: ${state.message}"));
+            }
+            if (state is ClientSingleLoaded) {
+              final client = state.client;
+              return Scaffold(
+                appBar: CustomAppBar(title: 'Информация о услуге', actions: []),
+                body: Padding(
+                  padding: const EdgeInsets.all(Dimens.padding16),
+                  child: Column(
+                    children: [
+                      CustomListTile(
+                        title: 'Создано:',
+                        subtitle: Text(
+                          DateFormat(
+                            'd MMMM yyyy',
+                            'ru_RU',
+                          ).format(session.createdAt),
+                        ),
+                      ),
+                      CustomListTile(
+                        onTap: () async {
+                          final controller =
+                              Provider.of<CalculatorSessionController>(
+                                context,
+                                listen: false,
+                              );
+                          if (client != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ClientProfileScreen(client: client),
+                              ),
+                            );
+                          }
+                          if (client == null) {
+                            final selectedClientId = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SelectClient(),
+                              ),
+                            );
+                            if (selectedClientId != null) {
+                              final updatedSession = session.copyWith(
+                                clientId: selectedClientId,
+                              );
+
+                              await controller.update(updatedSession);
+
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text("Сессия сохранена"),
+                                  ),
+                                );
+
+                                Navigator.pop(context);
+                              }
+                            }
+                          }
+                        },
+                        title: 'Клиент:',
+                        subtitle: Text(
+                          client?.name ?? 'Добавить клиента?',
+                          style: darkestTextStyle,
+                        ),
+                        divider: false,
+                      ),
+                      CustomListTile(title: 'До/После', divider: false),
+                      BeforeAfterUploader(
+                        session: session,
+                        controller: controller,
+                      ),
+
+                      SizedBox(height: Dimens.height24),
+                      CustomListTile(
+                        title: 'Затраченные Материалы:',
+                        divider: false,
+                      ),
+
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: session.consumptionData?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final key = session.consumptionData!.keys.elementAt(
+                              index,
+                            );
+                            final value = session.consumptionData!.values
+                                .elementAt(index);
+
+                            return CustomListTile(
+                              trailing: Text(
+                                "${value.toStringAsFixed(0)} ед.",
+                                style: headingH5TextStyle,
+                              ),
+                              title: key,
+                              subtitle: const Text("", style: darkestTextStyle),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               );
             }
 
-            final client = clientSnapshot.data;
-            return Scaffold(
-              appBar: CustomAppBar(title: 'Информация о услуге', actions: []),
-              body: Padding(
-                padding: const EdgeInsets.all(Dimens.padding16),
-                child: Column(
-                  children: [
-                    CustomListTile(
-                      title: 'Создано:',
-                      subtitle: Text(
-                        DateFormat(
-                          'd MMMM yyyy',
-                          'ru_RU',
-                        ).format(session.createdAt),
-                      ),
-                    ),
-                    CustomListTile(
-                      onTap: () async {
-                        final controller =
-                            Provider.of<CalculatorSessionController>(
-                              context,
-                              listen: false,
-                            );
-                        if (client != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  ClientProfileScreen(client: client),
-                            ),
-                          );
-                        }
-                        if (client == null) {
-                          final selectedClientId = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SelectClient(),
-                            ),
-                          );
-                          if (selectedClientId != null) {
-                            final updatedSession = session.copyWith(
-                              clientId: selectedClientId,
-                            );
-
-                            await controller.update(updatedSession);
-
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: const Text("Сессия сохранена"),
-                                ),
-                              );
-
-                              Navigator.pop(context);
-                            }
-                          }
-                        }
-                      },
-                      title: 'Клиент:',
-                      subtitle: Text(
-                        client?.name ?? 'Добавить клиента?',
-                        style: darkestTextStyle,
-                      ),
-                      divider: false,
-                    ),
-                    CustomListTile(title: 'До/После', divider: false),
-                    BeforeAfterUploader(
-                      session: session,
-                      controller: controller,
-                    ),
-
-                    SizedBox(height: Dimens.height24),
-                    CustomListTile(
-                      title: 'Затраченные Материалы:',
-                      divider: false,
-                    ),
-
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: session.consumptionData?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final key = session.consumptionData!.keys.elementAt(
-                            index,
-                          );
-                          final value = session.consumptionData!.values
-                              .elementAt(index);
-
-                          return CustomListTile(
-                            trailing: Text(
-                              "${value.toStringAsFixed(0)} ед.",
-                              style: headingH5TextStyle,
-                            ),
-                            title: key,
-                            subtitle: const Text("", style: darkestTextStyle),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return const SizedBox.shrink();
           },
+          // future: clientController.getClient(session.clientId),
+          // builder: (context, clientSnapshot) {
+          //   if (clientSnapshot.connectionState == ConnectionState.waiting) {
+          //     return const Center(child: CircularProgressIndicator());
+          //   } else if (clientSnapshot.hasError) {
+          //     return Center(
+          //       child: Text('Ошибка клиента: ${clientSnapshot.error}'),
+          //     );
+          //   }
+
+          //   final client = clientSnapshot.data;
+          //   return Scaffold(
+          //     appBar: CustomAppBar(title: 'Информация о услуге', actions: []),
+          //     body: Padding(
+          //       padding: const EdgeInsets.all(Dimens.padding16),
+          //       child: Column(
+          //         children: [
+          //           CustomListTile(
+          //             title: 'Создано:',
+          //             subtitle: Text(
+          //               DateFormat(
+          //                 'd MMMM yyyy',
+          //                 'ru_RU',
+          //               ).format(session.createdAt),
+          //             ),
+          //           ),
+          //           CustomListTile(
+          //             onTap: () async {
+          //               final controller =
+          //                   Provider.of<CalculatorSessionController>(
+          //                     context,
+          //                     listen: false,
+          //                   );
+          //               if (client != null) {
+          //                 Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                     builder: (_) =>
+          //                         ClientProfileScreen(client: client),
+          //                   ),
+          //                 );
+          //               }
+          //               if (client == null) {
+          //                 final selectedClientId = await Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                     builder: (context) => const SelectClient(),
+          //                   ),
+          //                 );
+          //                 if (selectedClientId != null) {
+          //                   final updatedSession = session.copyWith(
+          //                     clientId: selectedClientId,
+          //                   );
+
+          //                   await controller.update(updatedSession);
+
+          //                   if (context.mounted) {
+          //                     ScaffoldMessenger.of(context).showSnackBar(
+          //                       SnackBar(
+          //                         content: const Text("Сессия сохранена"),
+          //                       ),
+          //                     );
+
+          //                     Navigator.pop(context);
+          //                   }
+          //                 }
+          //               }
+          //             },
+          //             title: 'Клиент:',
+          //             subtitle: Text(
+          //               client?.name ?? 'Добавить клиента?',
+          //               style: darkestTextStyle,
+          //             ),
+          //             divider: false,
+          //           ),
+          //           CustomListTile(title: 'До/После', divider: false),
+          //           BeforeAfterUploader(
+          //             session: session,
+          //             controller: controller,
+          //           ),
+
+          //           SizedBox(height: Dimens.height24),
+          //           CustomListTile(
+          //             title: 'Затраченные Материалы:',
+          //             divider: false,
+          //           ),
+
+          //           Expanded(
+          //             child: ListView.builder(
+          //               itemCount: session.consumptionData?.length ?? 0,
+          //               itemBuilder: (context, index) {
+          //                 final key = session.consumptionData!.keys.elementAt(
+          //                   index,
+          //                 );
+          //                 final value = session.consumptionData!.values
+          //                     .elementAt(index);
+
+          //                 return CustomListTile(
+          //                   trailing: Text(
+          //                     "${value.toStringAsFixed(0)} ед.",
+          //                     style: headingH5TextStyle,
+          //                   ),
+          //                   title: key,
+          //                   subtitle: const Text("", style: darkestTextStyle),
+          //                 );
+          //               },
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   );
+          // },
         );
       },
     );

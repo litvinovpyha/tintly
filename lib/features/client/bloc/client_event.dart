@@ -28,3 +28,8 @@ class FilterClients extends ClientEvent {
   final String query;
   FilterClients(this.query);
 }
+
+class LoadClientById extends ClientEvent {
+  final String id;
+  LoadClientById(this.id);
+}

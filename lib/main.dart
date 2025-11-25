@@ -7,6 +7,7 @@ import 'package:tintly/core/init/providers_initializer.dart';
 import 'package:tintly/core/di/service_locator.dart';
 import 'package:tintly/features/admin/views/calculator_edit_screen.dart';
 import 'package:tintly/features/courses/views/hairstylist/couse_hairstylist.dart';
+import 'package:tintly/features/history/views/feature_history_screen.dart';
 import 'package:tintly/features/onboarding/onboarding_screen.dart';
 import 'package:tintly/features/products/views/unit_edit_screen.dart';
 import 'package:tintly/features/history/views/history_edit_screen.dart';
@@ -69,7 +70,7 @@ class TinTly extends StatelessWidget {
           '/history/selectTypes': (BuildContext context) =>
               const SelectHistoryTypes(),
           // '/history/feature-screen': (BuildContext context) =>
-          // const FeatureHistoryScreen(),
+          //     const FeatureHistoryScreen(),
           '/courses/hairstylist': (BuildContext context) =>
               const CouseHairstylist(),
           '/onboarding': (BuildContext context) => const OnboardingScreen(),

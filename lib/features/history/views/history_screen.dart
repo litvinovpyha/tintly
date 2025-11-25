@@ -99,7 +99,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child:  Text('Ошибка: ${snapshot.error}'));
+              return Center(child: Text('Ошибка: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               if (_selectedPeriod != 'year') {
                 final controller = Provider.of<CalculatorSessionController>(
@@ -183,7 +183,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     ),
                     trailing: chevronRight,
                     title: 'Операции',
-                    subtitle:  Text(
+                    subtitle: Text(
                       CurrencyFormatter.format(totalSum),
                       style: greenTextStyle,
                     ),
@@ -224,7 +224,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   bottom: 8.0,
                                   left: 16.0,
                                 ),
-                                child:  Text(
+                                child: Text(
                                   formattedDate,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -235,11 +235,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             ],
                             CustomListTile(
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/history/feature-screen',
-                                  arguments: session.id,
-                                );
+                                // Navigator.pushNamed(
+                                //   context,
+                                //   '/history/feature-screen',
+                                //   arguments: session.id,
+                                // );
                               },
                               leading: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -265,7 +265,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     width: 0.5,
                                   ),
                                 ),
-                                child:  Text(
+                                child: Text(
                                   DateFormat('HH:mm').format(session.createdAt),
                                   style: actionTextStyle,
                                 ),
@@ -274,7 +274,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               title: session.calculatorName?.isNotEmpty == true
                                   ? session.calculatorName!
                                   : '',
-                              subtitle:  Text(
+                              subtitle: Text(
                                 CurrencyFormatter.format(session.totalAmount),
                                 style: greenTextStyle,
                               ),

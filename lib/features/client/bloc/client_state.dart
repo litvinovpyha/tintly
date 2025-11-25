@@ -28,3 +28,15 @@ class ClientError extends ClientState {
   @override
   List<Object?> get props => [message];
 }
+
+class ClientSingleLoading extends ClientState {}
+
+class ClientSingleLoaded extends ClientState {
+  final Client client;
+  ClientSingleLoaded(this.client);
+}
+
+class ClientSingleError extends ClientState {
+  final String message;
+  ClientSingleError(this.message);
+}

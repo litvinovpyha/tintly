@@ -210,7 +210,7 @@ class _CalculatorFieldCreateState extends State<CalculatorFieldCreate> {
                       isActive: true,
                       placeholder: value,
                     );
-
+//ошибка
                     if (value != null) await unitController.create(item);
                     setState(() {});
                   },
