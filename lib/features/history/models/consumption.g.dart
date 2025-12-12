@@ -18,7 +18,7 @@ class ConsumptionAdapter extends TypeAdapter<Consumption> {
     };
     return Consumption(
       id: fields[0] as String,
-      productName: fields[1] as String,
+      name: fields[1] as String,
       quantity: fields[2] as double,
       unit: fields[3] as String,
     );
@@ -31,7 +31,7 @@ class ConsumptionAdapter extends TypeAdapter<Consumption> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.productName)
+      ..write(obj.name)
       ..writeByte(2)
       ..write(obj.quantity)
       ..writeByte(3)

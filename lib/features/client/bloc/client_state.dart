@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import 'package:tintly/features/client/models/client.dart';
 
 abstract class ClientState extends Equatable {
@@ -12,12 +11,20 @@ class ClientInitial extends ClientState {}
 class ClientLoading extends ClientState {}
 
 class ClientLoaded extends ClientState {
-  final List<Client> items;
+  final List<Client> clients;
 
-  ClientLoaded(this.items);
+  ClientLoaded(this.clients);
 
   @override
-  List<Object?> get props => [items];
+  List<Object?> get props => [clients];
+}
+
+class ClientItemLoaded extends ClientState {
+  final Client client;
+
+  ClientItemLoaded(this.client);
+  @override
+  List<Object?> get props => [client];
 }
 
 class ClientError extends ClientState {
@@ -28,3 +35,5 @@ class ClientError extends ClientState {
   @override
   List<Object?> get props => [message];
 }
+
+class ClientDeleted extends ClientState {}

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tintly/features/client/bloc/client_bloc.dart';
 import 'package:tintly/features/client/bloc/client_event.dart';
-import 'package:tintly/features/client/repositories/client_repository.dart';
+import 'package:tintly/features/client/repository/client_repository.dart';
 import 'package:tintly/features/client/views/client_list.dart';
 import 'package:tintly/shared/designs/dimens.dart';
-import 'package:tintly/shared/widgets/dialog/edit_dialog.dart';
+import 'package:tintly/shared/widgets/edit_dialog.dart';
 
 class ClientsScreen extends StatelessWidget {
   const ClientsScreen({super.key});
@@ -18,8 +18,10 @@ class ClientsScreen extends StatelessWidget {
         builder: (context) {
           return Stack(
             children: [
-              const ClientList(),
-
+              Padding(
+                padding: const EdgeInsets.only(bottom: Dimens.padding80),
+                child: const ClientList(),
+              ),
               Positioned(
                 bottom: 0,
                 right: 0,
@@ -69,9 +71,11 @@ class ClientsScreen extends StatelessWidget {
                             );
                           },
                         );
-                        if (name != null && name.isNotEmpty) {
+                        if (name != null &&
+                            name.isNotEmpty &&
+                            context.mounted) {
                           context.read<ClientBloc>().add(
-                            CreateClientRequested(name),
+                            CreateClientByName(name),
                           );
                         }
                       },

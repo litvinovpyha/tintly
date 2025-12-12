@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:tintly/shared/utils/id_generator.dart';
-import '../features/products/models/brand.dart';
+import '../features/brand/models/brand.dart';
 
 Future<void> brandSeeder() async {
-  var box = await Hive.openBox<Brand>('brands');
+  var box = await Hive.openBox<Brand>('brand');
 
   if (box.isNotEmpty) {
     return;

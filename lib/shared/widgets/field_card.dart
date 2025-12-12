@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tintly/features/admin/models/calculator_field.dart';
-import 'package:tintly/features/admin/models/field.dart';
-import 'package:tintly/features/admin/views/price/price_admin_item.dart';
+import 'package:tintly/features/calculatorField/models/calculator_field.dart';
+import 'package:tintly/features/field/models/field.dart';
 import 'package:tintly/shared/designs/app_color.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/designs/styles.dart';
@@ -37,20 +37,22 @@ class FieldCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                if (field.isChecked == true)
+                  CupertinoSwitch(value: true, onChanged: (value) {}),
+
                 Expanded(
-                  child:  Text(
-                    field.productName,
+                  child: Text(
+                    field.name,
                     style: darkestTextStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (field.isChecked == true) const Text('ЧекБокс'),
                 InkWell(onTap: onDelete, child: Icon(Icons.delete_outlined)),
-                if (calculatorField != null)
-                  PriceAdminDropDown(
-                    field: field,
-                    calculatorField: calculatorField!,
-                  ),
+                // if (calculatorField != null)
+                // PriceAdminDropDown(
+                //   field: field,
+                //   calculatorField: calculatorField!,
+                // ),
               ],
             ),
           ),

@@ -27,14 +27,23 @@ class User extends BaseModel {
     required this.role,
   });
 
-  @override
-  List<String> get validationErrors {
-    final errors = <String>[];
-    if (id.isEmpty) errors.add('ID is required');
-    if (name.isEmpty) errors.add('Name is required');
-    if (email.isEmpty) errors.add('Email is required');
-    if (phone.isEmpty) errors.add('Phone is required');
-    if (password.isEmpty) errors.add('Password is required');
-    return errors;
+  User copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? phone,
+    String? password,
+    String? role,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      password: password ?? this.password,
+      role: role ?? this.role,
+    );
   }
+
+
 }

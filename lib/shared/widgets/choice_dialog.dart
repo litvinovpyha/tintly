@@ -20,7 +20,7 @@ class ChoiceDialog extends StatelessWidget {
       actionsPadding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 12,
-      ), // отступы
+      ),
       actions: [
         Row(
           children: [

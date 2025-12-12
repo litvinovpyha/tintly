@@ -25,6 +25,7 @@ class CustomListTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          
           onTap: onTap,
           leading: leading,
           title: Row(

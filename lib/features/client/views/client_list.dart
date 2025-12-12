@@ -1,9 +1,10 @@
 //
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tintly/features/client/bloc/client_bloc.dart';
+import 'package:tintly/features/client/bloc/client_event.dart';
 import 'package:tintly/features/client/bloc/client_state.dart';
-import 'package:tintly/features/client/views/client_profile_screen.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/designs/icons.dart';
 import 'package:tintly/shared/designs/styles.dart';
@@ -16,59 +17,61 @@ class ClientList extends StatelessWidget {
     return BlocBuilder<ClientBloc, ClientState>(
       builder: (context, state) {
         if (state is ClientLoading) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: CupertinoActivityIndicator(
+              radius: 20.0,
+              color: CupertinoColors.activeBlue,
+            ),
+          );
         } else if (state is ClientError) {
           return Center(child: Text('Ошибка: ${state.message}'));
         } else if (state is ClientLoaded) {
           return ListView.builder(
-            itemCount: state.items.length,
+            itemCount: state.clients.length,
             itemBuilder: (context, index) {
-              final client = state.items[index];
+              final client = state.clients[index];
               return Card(
                 color: Colors.transparent,
                 elevation: Dimens.elevation0,
                 child: InkWell(
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    await Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => ClientProfileScreen(client: client),
-                      ),
+                      '/client/profile',
+                      arguments: client.id,
                     );
+
+                    if (context.mounted) {
+                      context.read<ClientBloc>().add(LoadClients());
+                    }
                   },
                   child: SizedBox(
                     height: Dimens.height72,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: Dimens.padding16,
-                        right: Dimens.padding16,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: Dimens.padding16,
-                            ),
-                            child: SizedBox(
-                              height: Dimens.height40,
-                              width: Dimens.width40,
-                              child: Image.asset(
-                                client.photo ?? 'assets/images/avatar.png',
-                              ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: Dimens.padding16,
+                          ),
+                          child: SizedBox(
+                            height: Dimens.height40,
+                            width: Dimens.width40,
+                            child: Image.asset(
+                              client.photo ?? 'assets/images/avatar.png',
                             ),
                           ),
+                        ),
 
-                          Expanded(
-                            child: Text(
-                              client.name,
-                              style: headingH5TextStyle,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                        Expanded(
+                          child: Text(
+                            client.name,
+                            style: headingH5TextStyle,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          chevronRight,
-                        ],
-                      ),
+                        ),
+                        chevronRight,
+                      ],
                     ),
                   ),
                 ),
@@ -135,7 +138,7 @@ class ClientList extends StatelessWidget {
 //     return Stack(
 //       children: [
 //         controller.isLoading
-//             ? const Center(child: CircularProgressIndicator())
+//             ? const Center(child: CupertinoActivityIndicator(radius: 20.0, color: CupertinoColors.activeBlue))
 //             : ListView.builder(
 //                 padding: EdgeInsets.only(bottom: getListBottomPadding(context)),
 //                 itemCount: controller.clients.length,

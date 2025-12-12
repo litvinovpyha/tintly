@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/designs/icons.dart';
-import 'package:tintly/shared/widgets/custom_app_bar.dart';
 import 'package:tintly/shared/widgets/custom_list_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,7 +60,7 @@ class CouseHairstylist extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Курс парикмахера'),
+      appBar: AppBar(title: Text('Курс для парикмахеров')),
       body: Padding(
         padding: const EdgeInsets.all(Dimens.padding16),
         child: ListView.separated(

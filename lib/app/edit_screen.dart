@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tintly/core/routes/app_routes.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/designs/icons.dart';
-import 'package:tintly/shared/widgets/custom_app_bar.dart';
 import 'package:tintly/shared/widgets/custom_list_tile.dart';
 
 class EditScreen extends StatelessWidget {
@@ -10,24 +10,23 @@ class EditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Редактирование'),
+      appBar: AppBar(title: Text('Редактирование')),
       body: Padding(
         padding: const EdgeInsetsGeometry.all(Dimens.padding16),
-
         child: Column(
           children: [
             CustomListTile(
               title: 'Настройка калькулятора',
               trailing: chevronRight,
               onTap: () async {
-                Navigator.pushNamed(context, '/settings/edit/calculator');
+                Navigator.pushNamed(context, RouteNames.editCalculator);
               },
             ),
             CustomListTile(
               title: 'Настройка истории',
               trailing: chevronRight,
               onTap: () async {
-                Navigator.pushNamed(context, '/settings/edit/history');
+                Navigator.pushNamed(context, RouteNames.editHistory);
               },
             ),
 
@@ -35,44 +34,25 @@ class EditScreen extends StatelessWidget {
               title: 'Настройка брендов',
               trailing: chevronRight,
               onTap: () async {
-                Navigator.pushNamed(context, '/settings/edit/brand');
+                Navigator.pushNamed(context, RouteNames.editBrand);
               },
             ),
             CustomListTile(
               title: 'Настройка Единиц измерения',
               trailing: chevronRight,
               onTap: () async {
-                Navigator.pushNamed(context, '/settings/edit/unit');
+                Navigator.pushNamed(context, RouteNames.editUnit);
               },
             ),
             CustomListTile(
               title: 'Показать Знакомство с приложением',
               trailing: chevronRight,
               onTap: () async {
-                Navigator.pushNamed(context, '/onboarding');
+                Navigator.pushNamed(context, RouteNames.onboarding);
               },
-            ),
-            CustomListTile(
-              title: 'Показать обучение с приложением',
-              trailing: chevronRight,
-              onTap: () => _restartOnboarding(context),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> _restartOnboarding(BuildContext context) async {
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setBool('seen_intro', false);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Обучение будет показано при следующем запуске приложения',
-        ),
-        duration: Duration(seconds: 3),
       ),
     );
   }

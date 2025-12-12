@@ -3,13 +3,13 @@ import 'package:tintly/core/models/base_model.dart';
 
 part 'consumption.g.dart';
 
-@HiveType(typeId: 10) 
+@HiveType(typeId: 10)
 class Consumption extends BaseModel {
   @HiveField(0)
   @override
   final String id;
   @HiveField(1)
-  final String productName;
+  final String name;
 
   @HiveField(2)
   final double quantity;
@@ -19,18 +19,24 @@ class Consumption extends BaseModel {
 
   Consumption({
     required this.id,
-    required this.productName,
+    required this.name,
     required this.quantity,
     required this.unit,
   });
 
-  @override
-  List<String> get validationErrors {
-    final errors = <String>[];
-    if (id.isEmpty) errors.add('ID is required');
-    if (productName.isEmpty) errors.add('Product name is required');
-    if (quantity <= 0) errors.add('Quantity must be positive');
-    if (unit.isEmpty) errors.add('Unit is required');
-    return errors;
+
+
+  Consumption copyWith({
+    String? id,
+    String? name,
+    double? quantity,
+    String? unit,
+  }) {
+    return Consumption(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      quantity: quantity ?? this.quantity,
+      unit: unit ?? this.unit,
+    );
   }
 }

@@ -84,11 +84,5 @@ class Client extends BaseModel {
     );
   }
 
-  @override
-  List<String> get validationErrors {
-    final errors = <String>[];
-    if (id.isEmpty) errors.add('ID is required');
-    if (name.isEmpty) errors.add('Name is required');
-    return errors;
-  }
+
 }
