@@ -178,6 +178,7 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                                   context.read<CalculatingBloc>().add(
                                     UpdateTotal(delta),
                                   );
+                                  setState(() {});
                                 },
                               ),
                             ),

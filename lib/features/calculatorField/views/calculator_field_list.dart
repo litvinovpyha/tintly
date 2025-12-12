@@ -10,8 +10,6 @@ import 'package:tintly/features/field/models/field.dart';
 import 'package:tintly/features/price/bloc/price_bloc.dart';
 import 'package:tintly/features/price/bloc/price_state.dart';
 import 'package:tintly/features/price/models/price.dart';
-import 'package:tintly/features/price/views/drop_down.dart';
-import 'package:tintly/features/price/views/edit_drop_down.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/widgets/choice_dialog.dart';
 
@@ -114,16 +112,32 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                                   check = value;
                                 },
                               ),
-
-                              EditDropDown(
-                                field: field,
-                                prices: pricesForField,
-
-                                showAddIcon: true,
-                                onChanged: (value) {
-                                  // Если хочешь — просто отреагируй на изменение
-                                  print("Цена выбрана: $value");
+                              InkWell(
+                                onTap: () async {
+                                  bool? confirm = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => ChoiceDialog(
+                                      title: 'Удалить',
+                                      description:
+                                          'Это поле будет удалено из данного списка, но его можно будет выбрать заново.',
+                                      confirm: 'Удалить',
+                                    ),
+                                  );
+                                  if (confirm == true && context.mounted) {
+                                    context.read<CalculatorFieldBloc>().add(
+                                      DeleteCalculatorField(calculatorField.id),
+                                    );
+                                  }
                                 },
+                                child: Icon(Icons.delete),
+                              ),
+                              InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  '/price',
+                                  arguments: field,
+                                ),
+                                child: Icon(Icons.add, color: Colors.blue),
                               ),
                             ],
                           ),
@@ -161,15 +175,13 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                                     },
                                     child: Icon(Icons.delete),
                                   ),
-                                  EditDropDown(
-                                    field: field,
-                                    prices: pricesForField,
-
-                                    showAddIcon: true,
-                                    onChanged: (value) {
-                                      // Если хочешь — просто отреагируй на изменение
-                                      print("Цена выбрана: $value");
-                                    },
+                                  InkWell(
+                                    onTap: () => Navigator.pushNamed(
+                                      context,
+                                      '/price',
+                                      arguments: field,
+                                    ),
+                                    child: Icon(Icons.add, color: Colors.blue),
                                   ),
                                 ],
                               ),
