@@ -27,6 +27,17 @@ class PriceBloc extends Bloc<PriceEvent, PriceState> {
         emit(PriceError(e.toString()));
       }
     });
+
+    on<LoadAllPrices>((event, emit) async {
+      emit(PriceLoading());
+      try {
+        final prices = await r
+            .getAll(); // ← метод, который возвращает все прайсы
+        emit(PriceLoaded(prices));
+      } catch (e) {
+        emit(PriceError(e.toString()));
+      }
+    });
     on<AddPrice>((event, emit) async {
       try {
         final newPrice = await r.create(event.price);

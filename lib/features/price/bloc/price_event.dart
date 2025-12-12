@@ -6,6 +6,8 @@ abstract class PriceEvent {}
 
 class LoadPrices extends PriceEvent {}
 
+class LoadAllPrices extends PriceEvent {}
+
 class LoadPricesByField extends PriceEvent {
   final Field field;
   LoadPricesByField({required this.field});

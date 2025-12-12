@@ -16,6 +16,10 @@ import 'package:tintly/features/calculatorSession/repository/calculator_session_
 import 'package:tintly/features/field/bloc/field_bloc.dart';
 import 'package:tintly/features/field/bloc/field_event.dart';
 import 'package:tintly/features/field/repository/field_repository.dart';
+import 'package:tintly/features/price/bloc/price_bloc.dart';
+import 'package:tintly/features/price/bloc/price_event.dart';
+import 'package:tintly/features/price/repository/price_repository.dart';
+import 'package:tintly/shared/designs/dimens.dart';
 
 class CalculatingScreen extends StatelessWidget {
   const CalculatingScreen({super.key});
@@ -52,12 +56,19 @@ class CalculatingScreen extends StatelessWidget {
           create: (_) =>
               CalculatorBloc(CalculatorRepository())..add(LoadCalculators()),
         ),
+        BlocProvider(
+          create: (context) =>
+              PriceBloc(PriceRepository())..add(LoadAllPrices()),
+        ),
       ],
       child: Scaffold(
         appBar: AppBar(title: Text('Калькулятор')),
         body: Stack(
           children: [
-            const CalculatingFieldsList(),
+            Padding(
+              padding: const EdgeInsetsGeometry.only(bottom: Dimens.padding120),
+              child: const CalculatingFieldsList(),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: BlocBuilder<CalculatingBloc, CalculatingState>(

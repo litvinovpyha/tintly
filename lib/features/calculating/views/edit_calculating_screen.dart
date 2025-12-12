@@ -7,6 +7,9 @@ import 'package:tintly/features/calculatorField/views/calculator_field_list.dart
 import 'package:tintly/features/field/bloc/field_bloc.dart';
 import 'package:tintly/features/field/bloc/field_event.dart';
 import 'package:tintly/features/field/repository/field_repository.dart';
+import 'package:tintly/features/price/bloc/price_bloc.dart';
+import 'package:tintly/features/price/bloc/price_event.dart';
+import 'package:tintly/features/price/repository/price_repository.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 
 class EditCalculatingScreen extends StatelessWidget {
@@ -25,6 +28,10 @@ class EditCalculatingScreen extends StatelessWidget {
         ),
         BlocProvider<FieldBloc>(
           create: (_) => FieldBloc(FieldRepository())..add(LoadFields()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              PriceBloc(PriceRepository())..add(LoadAllPrices()),
         ),
       ],
 
@@ -49,8 +56,6 @@ class EditCalculatingScreen extends StatelessWidget {
               elevation: Dimens.elevation006,
               child: const Icon(Icons.add, color: Color(0xFF2F3036)),
               onPressed: () async {
-
-                
                 await Navigator.pushNamed(
                   context,
                   '/field',

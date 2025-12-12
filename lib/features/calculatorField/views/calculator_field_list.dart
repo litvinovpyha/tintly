@@ -7,7 +7,11 @@ import 'package:tintly/features/calculatorField/bloc/calculator_field_state.dart
 import 'package:tintly/features/field/bloc/field_bloc.dart';
 import 'package:tintly/features/field/bloc/field_state.dart';
 import 'package:tintly/features/field/models/field.dart';
+import 'package:tintly/features/price/bloc/price_bloc.dart';
+import 'package:tintly/features/price/bloc/price_state.dart';
+import 'package:tintly/features/price/models/price.dart';
 import 'package:tintly/features/price/views/drop_down.dart';
+import 'package:tintly/features/price/views/edit_drop_down.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/widgets/choice_dialog.dart';
 
@@ -83,6 +87,15 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                   subtitle: Text("ID: ${calculatorField.fieldId}"),
                 );
               }
+              List<Price> pricesForField = [];
+
+              final priceState = context.watch<PriceBloc>().state;
+
+              if (priceState is PriceLoaded) {
+                pricesForField = priceState.price
+                    .where((p) => p.field == field)
+                    .toList();
+              }
 
               return Container(
                 key: ValueKey(calculatorField.id),
@@ -102,8 +115,10 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                                 },
                               ),
 
-                              DropDown(
+                              EditDropDown(
                                 field: field,
+                                prices: pricesForField,
+
                                 showAddIcon: true,
                                 onChanged: (value) {
                                   // Если хочешь — просто отреагируй на изменение
@@ -146,8 +161,10 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                                     },
                                     child: Icon(Icons.delete),
                                   ),
-                                  DropDown(
+                                  EditDropDown(
                                     field: field,
+                                    prices: pricesForField,
+
                                     showAddIcon: true,
                                     onChanged: (value) {
                                       // Если хочешь — просто отреагируй на изменение
