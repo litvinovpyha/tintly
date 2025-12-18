@@ -102,10 +102,8 @@ class _SaveButtonState extends State<SaveButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            /// Левая часть — итог
             Text('Итого: ${finalTotal.toInt()}', style: whiteTitleTextStyle),
 
-            /// Правая часть — поле скидки
             SizedBox(
               width: 90,
               child: TextField(

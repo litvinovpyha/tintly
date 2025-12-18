@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "581962146656",
+    "project_id": "tintly-by-nikaeva",
+    "storage_bucket": "tintly-by-nikaeva.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581962146656:android:6d6dd3964ed0ec6caf3405",
+        "android_client_info": {
+          "package_name": "com.example.tintly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2BcSZ2zE7iOaHVuya88qIN4wZFasJXrQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -48,11 +48,7 @@ class FieldCard extends StatelessWidget {
                   ),
                 ),
                 InkWell(onTap: onDelete, child: Icon(Icons.delete_outlined)),
-                // if (calculatorField != null)
-                // PriceAdminDropDown(
-                //   field: field,
-                //   calculatorField: calculatorField!,
-                // ),
+               
               ],
             ),
           ),

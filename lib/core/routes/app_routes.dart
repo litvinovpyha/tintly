@@ -12,26 +12,27 @@ import 'package:tintly/features/field/views/field_screen.dart';
 import 'package:tintly/features/field/views/field_create_screen.dart';
 import 'package:tintly/features/history/views/history_edit_screen.dart';
 import 'package:tintly/features/calculating/views/calculating_screen.dart';
+import 'package:tintly/features/history/views/history_period_screen.dart';
+import 'package:tintly/features/history/views/history_types_screen.dart';
 import 'package:tintly/features/onboarding/onboarding_screen.dart';
 import 'package:tintly/features/price/views/price_Screen.dart';
 import 'package:tintly/features/price/views/price_create.dart';
 import 'package:tintly/features/unit/views/unit_edit_screen.dart';
 
 class RouteNames {
-  
   //MAIN
   static const main = '/main';
-  
+
   //ROOT
   static const settinngsEdit = '/settings/edit';
   static const onboarding = '/onboarding';
-  
+
   //HOME
   static const hairCousesList = '/home/courses/hairstylist';
-  
+
   //CLIENT
   static const clientProfile = '/client/profile';
-  
+
   //CALCULATING
   static const calculating = '/home/calculating';
   static const editCalculating = '/settings/edit/calculator/edit';
@@ -41,14 +42,16 @@ class RouteNames {
   static const editHistory = '/settings/edit/history';
   static const editUnit = '/settings/edit/unit';
   static const editBrand = '/settings/edit/brand';
-  
+
   //HISTORY
   static const historySession = '/history/calculatorSession';
-  
+  static const historyPeriod = '/history/period';
+  static const historyTypes = '/history/types';
+
   //FIELD
   static const field = '/field';
   static const fieldCreate = '/field/create';
-  
+
   //PRICE
   static const price = '/price';
   static const priceCreate = '/price/create';
@@ -91,6 +94,10 @@ class AppRoutes {
       //HISTORY
       RouteNames.historySession: (BuildContext context) =>
           const CalculatorSessionScreen(),
+      RouteNames.historyPeriod: (BuildContext context) =>
+          const HistoryPeriodScreen(),
+      RouteNames.historyTypes: (BuildContext context) =>
+          const HistoryTypesScreen(),
       //FIELD
       '/field': (context) {
         final calculatorId =
@@ -108,7 +115,7 @@ class AppRoutes {
         return PriceScreen(field: field);
       },
       RouteNames.priceCreate: (BuildContext context) {
-        final Field field = ModalRoute.of(context)!.settings.arguments  as Field;
+        final Field field = ModalRoute.of(context)!.settings.arguments as Field;
         return PriceCreate(field: field);
       },
     };

@@ -44,56 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text('Добро пожаловать!', style: h1TextStyle),
                   ),
 
-                  // const SizedBox(height: 16),
-
-                  // TextField(
-                  //   controller: phoneController,
-                  //   decoration: InputDecoration(
-                  //     hintText: 'Телефон',
-                  //     hintStyle: const TextStyle(color: Colors.black54),
-                  //     filled: true,
-                  //     fillColor: Colors.white.withOpacity(0.6),
-                  //     contentPadding: const EdgeInsets.symmetric(
-                  //       horizontal: 14,
-                  //       vertical: 14,
-                  //     ),
-
-                  //     enabledBorder: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(14),
-                  //       borderSide: const BorderSide(
-                  //         color: Color(0x33000000),
-                  //         width: 1,
-                  //       ),
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(14),
-                  //       borderSide: const BorderSide(
-                  //         color: Color(0x33000000),
-                  //         width: 1,
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   cursorColor: Colors.black,
-                  // ),
                   const SizedBox(height: 16),
 
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {},
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: primaryColor,
-                  //       foregroundColor: Colors.white,
-                  //       padding: const EdgeInsets.symmetric(vertical: 12),
-                  //       minimumSize: const Size(0, 48),
-
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(12),
-                  //       ),
-                  //     ),
-                  //     child: const Text('Войти', style: actionWhiteTextStyle),
-                  //   ),
-                  // ),
                   const SizedBox(height: 32),
 
                   Container(
@@ -109,38 +61,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       _socialButton(
                         icon: Icons.g_mobiledata_outlined,
-                        color: Colors.redAccent,
+                        color: Colors.white,
                         onTap: () {},
                       ),
                       const SizedBox(width: 20),
-                      // _socialButton(
-                      //   icon: Icons.alternate_email,
-                      //   color: Colors.redAccent,
-                      //   onTap: () {},
-                      // ),
-                      // const SizedBox(width: 20),
 
-                      // const SizedBox(width: 20),
                       if (Platform.isIOS)
                         _socialButton(
                           icon: Icons.apple,
                           color: Colors.black,
                           onTap: () {
                             Navigator.pushNamed(context, '/main');
-                            //AppleSignInRequested здесь отрабатывает
                           },
                         ),
-                      // if (Platform.isIOS) const SizedBox(width: 20),
-                      // _socialButton(
-                      //   icon: Icons.admin_panel_settings,
-                      //   color: Colors.blueAccent,
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(builder: (_) => MainScreen()),
-                      //     );
-                      //   },
-                      // ),
                     ],
                   ),
                 ],
@@ -167,7 +100,7 @@ Widget _socialButton({
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: Colors.grey.shade300, width: 1),
-        color: Colors.white,
+        color: const Color.fromARGB(255, 224, 212, 212),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),

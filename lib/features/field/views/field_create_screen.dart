@@ -81,7 +81,7 @@ class _FieldCreateScreenState extends State<FieldCreateScreen> {
                     controller: descriptionController,
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
-                      hintText: 'Описание ( не обязательно)',
+                      hintText: 'Описание например "Грамм" ( не обязательно )',
                       hintStyle: const TextStyle(color: Colors.black54),
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.6),

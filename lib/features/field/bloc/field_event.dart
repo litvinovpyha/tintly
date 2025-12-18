@@ -30,6 +30,12 @@ class UpdateFieldByName extends FieldEvent {
   UpdateFieldByName(this.id, this.newName);
 }
 
+class UpdateFieldByPlasholder extends FieldEvent {
+  final String id;
+  final String newPlasholder;
+  UpdateFieldByPlasholder(this.id, this.newPlasholder);
+}
+
 class UpdateField extends FieldEvent {
   final Field field;
   UpdateField(this.field);

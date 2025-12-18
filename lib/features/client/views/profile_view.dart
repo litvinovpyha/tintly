@@ -242,29 +242,7 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  // CustomListTile(
-                  //   title: 'День рождения',
-                  //   subtitle: Text(client.birthday ?? 'Добавить'),
-                  // ),
-                  // CustomListTile(
-                  //   title: 'Комментарий',
-                  //   subtitle: Text(client.comment ?? 'Добавить'),
-                  // ),
-                  // CustomListTile(
-                  //   title: 'Техника окрашивания',
-                  //   subtitle: Text(
-                  //     client.coloringTechnique ?? 'Добавить',
-                  //   ),
-                  // ),
-                  // CustomListTile(
-                  //   title: 'Тип стрижки',
-                  //   subtitle: Text(client.haircutType ?? 'Добавить'),
-                  // ),
-                  // CustomListTile(
-                  //   title: 'Время Услуги',
-                  //   subtitle: Text(client.serviceDuration ?? 'Добавить'),
-                  //   divider: false,
-                  // ),
+              
                 ],
               ),
             ),

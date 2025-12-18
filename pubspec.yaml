@@ -28,6 +28,8 @@ dependencies:
   url_launcher: ^6.3.2 # no
   equatable: ^2.0.7
   sign_in_with_apple: ^7.0.1
+  firebase_core: ^4.3.0
+  firebase_auth: ^6.1.3
 
 #  flutter_svg: ^2.2.1
 #  telegram_login_flutter: ^1.0.1

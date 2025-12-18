@@ -44,6 +44,25 @@ class FieldList extends StatelessWidget {
             itemBuilder: (context, index) {
               final field = state.fields[index];
               return InkWell(
+                onDoubleTap: () async {
+                  final newPlaceholder = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return EditDialog(
+                        label: 'Редактировать Описание:',
+                        description: '',
+                        confirm: 'Сохранить',
+                        data: field.placeholder ?? '',
+                      );
+                    },
+                  );
+
+                  if (newPlaceholder != null && context.mounted) {
+                    context.read<FieldBloc>().add(
+                      UpdateFieldByPlasholder(field.id, newPlaceholder),
+                    );
+                  }
+                },
                 onLongPress: () async {
                   final newName = await showDialog(
                     context: context,
@@ -89,81 +108,7 @@ class FieldList extends StatelessWidget {
                 ),
               );
 
-              // return Card(
-              //   color: Colors.transparent,
-              //   elevation: Dimens.elevation0,
-              //   child: InkWell(
-              //     onTap: () {
-              //       context.read<CalculatorFieldBloc>().add(
-              //         CreateCalculatorField(calculatorId, field.id),
-              //       );
-
-              //       Navigator.pop(context);
-              //     },
-              //     child: SizedBox(
-              //       height: Dimens.height72,
-              //       child: Padding(
-              //         padding: const EdgeInsets.only(
-              //           left: Dimens.padding16,
-              //           right: Dimens.padding16,
-              //         ),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: [
-              //             Expanded(
-              //               child: Text(
-              //                 field.name,
-              //                 style: headingH5TextStyle,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //             ),
-              //             InkWell(
-              //               child: Icon(Icons.edit),
-              //               onTap: () async {
-              //                 final newName = await showDialog(
-              //                   context: context,
-              //                   builder: (context) {
-              //                     return EditDialog(
-              //                       label: 'Редактировать Название:',
-              //                       description: '',
-              //                       confirm: 'Сохранить',
-              //                       data: field.name,
-              //                     );
-              //                   },
-              //                 );
-
-              //                 if (newName != null && context.mounted) {
-              //                   context.read<FieldBloc>().add(
-              //                     UpdateFieldByName(field.id, newName),
-              //                   );
-              //                 }
-              //               },
-              //             ),
-              //             InkWell(
-              //               child: Icon(Icons.delete_outline),
-              //               onTap: () async {
-              //                 bool? confirm = await showDialog<bool>(
-              //                   context: context,
-              //                   builder: (context) => ChoiceDialog(
-              //                     title: 'Удалить',
-              //                     description: 'Вы уверены?',
-              //                     confirm: 'Удалить',
-              //                   ),
-              //                 );
-
-              //                 if (confirm == true && context.mounted) {
-              //                   context.read<FieldBloc>().add(
-              //                     DeleteField(field.id),
-              //                   );
-              //                 }
-              //               },
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // );
+           
             },
           );
         }

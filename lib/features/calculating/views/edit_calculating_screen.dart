@@ -43,7 +43,7 @@ class EditCalculatingScreen extends StatelessWidget {
               padding: const EdgeInsets.only(
                 left: Dimens.padding16,
                 right: Dimens.padding16,
-                bottom: Dimens.padding120,
+                bottom: Dimens.padding130,
               ),
               child: CalculatorFieldList(),
             ),

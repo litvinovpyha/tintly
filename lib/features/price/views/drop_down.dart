@@ -15,9 +15,9 @@ class DropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (prices.isEmpty) {
-      return const Icon(Icons.check, color: Colors.blue);
-    }
+    // if (prices.isEmpty) {
+    //   return const Icon(Icons.check, color: Colors.blue);
+    // }
 
     return DropdownButton<Price>(
       underline: const SizedBox(),

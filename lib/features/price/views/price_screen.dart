@@ -19,7 +19,7 @@ class PriceScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return Scaffold(
-            appBar: AppBar(title: Text('Прайсы')),
+            appBar: AppBar(title: Text('Прайсы: ${field!.name}')),
             body: PriceList(),
             floatingActionButton: FloatingActionButton(
               shape: RoundedRectangleBorder(

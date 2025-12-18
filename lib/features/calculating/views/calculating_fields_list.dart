@@ -24,8 +24,8 @@ class CalculatingFieldsList extends StatefulWidget {
 class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
   Map<String, bool> switchValues = {};
   Map<String, Price?> selectedPrices = {};
-  Map<String, double> inputValues = {}; // fieldId → double input
-  Map<String, TextEditingController> controllers = {}; // fieldId → controller
+  Map<String, double> inputValues = {};
+  Map<String, TextEditingController> controllers = {};
 
   @override
   void dispose() {
@@ -89,6 +89,9 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                 pricesForField = priceState.price
                     .where((p) => p.field.id == field!.id)
                     .toList();
+
+                pricesForField.sort((a, b) => a.id.compareTo(b.id));
+
                 if (pricesForField.isNotEmpty &&
                     selectedPrices[field.id] == null) {
                   selectedPrices[field.id] = pricesForField[0];
@@ -114,18 +117,27 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                           textCapitalization: TextCapitalization.words,
 
                           controller: controller,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            signed: false,
-                          ),
+                          keyboardType: TextInputType.phone,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[0-9+]'),
+                            ),
                           ],
                           onChanged: (value) {
                             final currentPrice = selectedPrices[field!.id];
                             if (currentPrice == null) return;
+                            int qty = 0;
+                            try {
+                              qty = value
+                                  .split('+')
+                                  .map((part) => int.tryParse(part.trim()) ?? 0)
+                                  .fold(0, (a, b) => a + b);
+                            } catch (_) {
+                              qty = 0;
+                            }
 
                             final oldValue = inputValues[field.id] ?? 0;
-                            final newValue = int.tryParse(value) ?? 0;
+                            final newValue = qty;
 
                             inputValues[field.id] = newValue.toDouble();
 
@@ -142,12 +154,13 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                             );
                           },
                           decoration: InputDecoration(
-                            hintText: field.name,
+                            labelText: field.name,
+                            hintText: field.placeholder,
                             filled: false,
                             border: InputBorder.none,
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 18,
+                              vertical: 8,
                             ),
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(
@@ -190,7 +203,7 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                       elevation: Dimens.elevation006,
                       color: Colors.white,
                       child: Padding(
-                        padding: const EdgeInsets.all(Dimens.padding8),
+                        padding: const EdgeInsets.all(Dimens.padding16),
                         child: Row(
                           children: [
                             Expanded(child: Text(field.name)),
@@ -199,8 +212,8 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                               onChanged: (value) {
                                 final oldValue = switchValues[field!.id]!
                                     ? 1
-                                    : 0; // был включен?
-                                final newValue = value ? 1 : 0; // стал включен?
+                                    : 0;
+                                final newValue = value ? 1 : 0;
 
                                 switchValues[field.id] = value;
 
@@ -214,7 +227,7 @@ class _CalculatingFieldsListState extends State<CalculatingFieldsList> {
                                   );
                                 }
 
-                                setState(() {}); // обновляем UI
+                                setState(() {});
                               },
                             ),
 

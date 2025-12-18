@@ -73,9 +73,33 @@ class FieldBloc extends Bloc<FieldEvent, FieldState> {
           if (index != -1) {
             final updatedList = List<Field>.from(_allFields);
             updatedList[index] = savedField;
-            _allFields = updatedList; 
+            _allFields = updatedList;
           }
-          emit(FieldsLoaded(_allFields)); 
+          emit(FieldsLoaded(_allFields));
+        }
+      } catch (e) {
+        emit(FieldError(e.toString()));
+      }
+    });
+    on<UpdateFieldByPlasholder>((event, emit) async {
+      try {
+        final oldField = _allFields.firstWhere((u) => u.id == event.id);
+
+        final updatedField = oldField.copyWith(
+          placeholder: event.newPlasholder,
+        );
+
+        final savedField = await r.update(updatedField);
+
+        if (savedField != null) {
+          final index = _allFields.indexWhere((c) => c.id == savedField.id);
+
+          if (index != -1) {
+            final updatedList = List<Field>.from(_allFields);
+            updatedList[index] = savedField;
+            _allFields = updatedList;
+          }
+          emit(FieldsLoaded(_allFields));
         }
       } catch (e) {
         emit(FieldError(e.toString()));

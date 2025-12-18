@@ -9,7 +9,6 @@ import 'package:tintly/features/field/bloc/field_state.dart';
 import 'package:tintly/features/field/models/field.dart';
 import 'package:tintly/features/price/bloc/price_bloc.dart';
 import 'package:tintly/features/price/bloc/price_state.dart';
-import 'package:tintly/features/price/models/price.dart';
 import 'package:tintly/shared/designs/dimens.dart';
 import 'package:tintly/shared/widgets/choice_dialog.dart';
 
@@ -85,15 +84,10 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                   subtitle: Text("ID: ${calculatorField.fieldId}"),
                 );
               }
-              List<Price> pricesForField = [];
 
               final priceState = context.watch<PriceBloc>().state;
 
-              if (priceState is PriceLoaded) {
-                pricesForField = priceState.price
-                    .where((p) => p.field == field)
-                    .toList();
-              }
+              if (priceState is PriceLoaded) {}
 
               return Container(
                 key: ValueKey(calculatorField.id),
@@ -148,9 +142,9 @@ class _CalculatorFieldListState extends State<CalculatorFieldList> {
                         child: Card(
                           color: Colors.white,
                           child: SizedBox(
-                            height: Dimens.height52,
+                            height: Dimens.height72,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(Dimens.padding16),
                               child: Row(
                                 children: [
                                   Expanded(child: Text(field.name)),

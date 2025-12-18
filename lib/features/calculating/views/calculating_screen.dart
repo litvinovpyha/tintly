@@ -66,7 +66,11 @@ class CalculatingScreen extends StatelessWidget {
         body: Stack(
           children: [
             Padding(
-              padding: const EdgeInsetsGeometry.only(bottom: Dimens.padding120),
+              padding: const EdgeInsetsGeometry.only(
+                left: Dimens.padding16,
+                right: Dimens.padding16,
+                bottom: 140,
+              ),
               child: const CalculatingFieldsList(),
             ),
             Align(

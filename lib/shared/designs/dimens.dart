@@ -29,6 +29,7 @@ class Dimens {
   static const double padding36 = 36;
   static const double padding80 = 80;
   static const double padding120 = 120;
+  static const double padding130 = 130;
 
   static const double width8 = 8;
   static const double width16 = 16;

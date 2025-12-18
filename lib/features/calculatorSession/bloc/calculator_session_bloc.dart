@@ -24,11 +24,37 @@ class CalculatorSessionBloc
     on<LoadCalculatorSessionItem>((event, emit) async {
       emit(CalculatorSessionLoading());
       try {
-        final calculator = await r.get(event.id);
+        final c = await r.get(event.id);
 
-        if (calculator != null) {
-          emit(CalculatorSessionItemLoaded(calculator));
+        if (c != null) {
+          emit(CalculatorSessionItemLoaded(c));
         }
+      } catch (e) {
+        emit(CalculatorSessionError(e.toString()));
+      }
+    });
+    on<LoadSessionsByType>((event, emit) async {
+      emit(CalculatorSessionLoading());
+
+      try {
+        final allSessions = await r.getAll();
+
+        final filtered = allSessions
+            .where((s) => s.calculatorName == event.calculatorName)
+            .toList();
+
+        emit(CalculatorSessionLoaded(filtered));
+      } catch (e) {
+        emit(CalculatorSessionError(e.toString()));
+      }
+    });
+
+    on<LoadSessionsByPeriod>((event, emit) async {
+      emit(CalculatorSessionLoading());
+      try {
+        final c = await r.getByPeriod(event.period);
+
+        emit(CalculatorSessionLoaded(c));
       } catch (e) {
         emit(CalculatorSessionError(e.toString()));
       }
